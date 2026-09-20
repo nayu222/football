@@ -1,5 +1,5 @@
 name: 每日竞彩自动预测
- on:
+on:
    schedule:
      - cron: '0 3 * * *'
      - cron: '0 10 * * *'
