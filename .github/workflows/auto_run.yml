@@ -1,6 +1,7 @@
 name: 每日竞彩自动预测
-on:
+ on:
    schedule:
+     # 每天北京时间11点、18点自动运行
      - cron: '0 3 * * *'
      - cron: '0 10 * * *'
    workflow_dispatch:
@@ -9,25 +10,18 @@ on:
      runs-on: ubuntu-latest
      steps:
        - uses: actions/checkout@v4
-       
        - name: 设置Python环境
          uses: actions/setup-python@v5
          with:
            python-version: '3.11'
-           
        - name: 安装依赖库
          run: pip install pandas numpy scipy requests beautifulsoup4 lxml
-           
        - name: 执行预测脚本
          run: python predict.py
-         
-       - name: 查看生成文件
-         run: ls -lh
-         
        - name: 提交预测报告
          run: |
            git config user.name "github-actions[bot]"
            git config user.email "github-actions[bot]@users.noreply.github.com"
-           git add .
-           git commit -m "自动更新预测报告" || echo "无更新"
+           git add *.csv *.md
+           git commit -m "自动更新预测报告 - $(date +'%Y-%m-%d %H:%M')" || echo "无更新"
            git push
