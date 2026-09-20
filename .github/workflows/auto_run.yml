@@ -1,7 +1,6 @@
 name: 每日竞彩自动预测
  on:
    schedule:
-     # 每天北京时间11点、18点自动运行
      - cron: '0 3 * * *'
      - cron: '0 10 * * *'
    workflow_dispatch:
@@ -22,13 +21,13 @@ name: 每日竞彩自动预测
        - name: 执行预测脚本
          run: python predict.py
          
-       - name: 查看生成的文件（排查用）
-         run: ls -lh *.csv *.md
+       - name: 查看生成文件
+         run: ls -lh
          
        - name: 提交预测报告
          run: |
            git config user.name "github-actions[bot]"
            git config user.email "github-actions[bot]@users.noreply.github.com"
            git add .
-           git commit -m "自动更新预测报告 - $(date +'%Y-%m-%d %H:%M')" || echo "无更新内容，跳过提交"
+           git commit -m "自动更新预测报告"    echo "无更新"
            git push
